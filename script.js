@@ -1,16 +1,26 @@
-//your JS code here. If required.
-document.addEventListener("DOMContentLoaded", () => {
-  const codes = document.querySelectorAll(".code");
-  codes[0].focus();
+document.addEventListener('DOMContentLoaded', (event) => {
+  var inputs = Array.from(document.querySelectorAll('.code'));
 
-  codes.forEach((code, idx) => {
-    code.addEventListener("keydown", (e) => {
-      if (e.key >= 0 && e.key <= 9) {
-        codes[idx].value = "";
-        setTimeout(() => codes[idx + 1]?.focus(), 10);
-      } else if (e.key === "Backspace") {
-        setTimeout(() => codes[idx - 1]?.focus(), 10);
+  inputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+      if (input.value.length > 0) {
+        if (index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      }
+    });
+
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Backspace' && input.value.length === 0) {
+        if (index > 0) {
+          inputs[index - 1].focus();
+        }
       }
     });
   });
+
+  // Set the focus on the first input field when the page loads
+  if (inputs.length > 0) {
+    inputs[0].focus();
+  }
 });
